@@ -1,0 +1,309 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{epsfig} \usepackage{latexsym,nicefrac,bbm}
+\usepackage{xspace}
+\usepackage{color,fancybox,graphicx,subfigure,fullpage}
+\usepackage[top=1.25in, bottom=1.25in, left=1in, right=1in]{geometry}
+\usepackage{tabularx} \usepackage{hyperref}
+\usepackage{pdfsync}
+\usepackage[boxruled]{algorithm2e}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{placeins}
+
+% === Block-style paragraphs (no indent, extra space between paragraphs) ===
+\usepackage{parskip}           % easiest, sets \parindent=0pt and adds \parskip
+% If you prefer not to load parskip, comment the line above and use:
+% \setlength{\parindent}{0pt}
+% \setlength{\parskip}{0.8em}
+
+\newcommand{\parag}[1]{ {\bf \noindent #1}}
+\newcommand{\insquare}[1]{\left[#1\right]}
+\newcommand{\prob}[1]{\mathrm{Pr}\insquare{#1}}
+\newcommand{\cE}{\mathbb{E}}
+
+\title{\bf Multi-Objective Bias Analysis for E-Commerce Recommendations}
+\author{Anuj Sakarda, Nathaniel Mathew, Shantanu Kumar \\ Course: CPSC x640}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{High level Problem Description} 
+Algorithmic bias is found on numerous different platforms and across many avenues. Most times, users are unaware of these biases, which can prove to be massively detrimental. Some examples of this bias include social media platforms (TikTok and Instagram) that have algorithms that give targeted content to specific users. Another example could be job recommendation platforms (LinkedIn) which give targeted job recommendations to specific users.
+
+Generally these companies hide beneath this veil of providing users with a better experience, but in reality, this can prove to be incredibly dangerous. The end goal of these applications is to get users hooked onto their platforms, and the best way for companies to do that is by giving the users content that they “want”. They do so by collecting data from the user, and feed that user the content they desire [1]. However, the issue with this is that it can create echo chambers of information, unequal access to opportunities, and additional tangible negative implications.
+
+Many of these negative implications take shape in the e-commerce space, which the proposed project will explore. When ordering specific items from an e-commerce company (i.e. Amazon pictured in Figure 1) the company orders/ranks items depending on a few metrics (pictured in figure. Some of these metrics include how many times other customers have clicked on the product, how many carts is that product in, what have been the past ratings on those products etc [2]. Although this algorithm seems non-malicious (in fact appears as if Amazon is trying to give customers the best products available on their platform), in reality these algorithms lead to a "rich get richer" dynamic that mirrors the hyper-personalization echo chambers observed on social media platforms, where algorithmic amplification concentrates user attention on a narrow subset of content. The algorithms push for specific products to be advertised heavily which ends up ignoring and negatively impacting more niche products which haven’t had the same exposure/advertising that other products have had.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\linewidth]{amazon.png}
+\caption{Amazon Ordering}
+\end{figure}
+
+This project aims to create a dashboard service that helps users recognize potential biases in their e-commerce feeds. By making these biases visible, users become more aware of the echo chambers they may be part of, which will hopefully encourage them to break out of those feedback loops. This, in turn, can increase visibility and opportunities for less “traditional” products, ultimately improving the experience for both smaller manufacturers and customers.
+
+\section{Problem Statement} 
+
+E-commerce platforms use biased algorithms that heavily emphasize certain data points, causing some products to be advertised more aggressively than niche alternatives. This lack of visibility negatively impacts smaller or less mainstream products.
+
+\section{Fairness Definition}
+
+This project posits that the problem described above is ``unfair''. The project describes fairness in terms of visibility. Essentially what this means is that certain products are disproportionately more visible than other, more niche products. This idea of visibility can be broken down into two subcategories.
+
+\begin{enumerate}
+    \item \textbf{Which products are being advertised:} As demonstrated in Figure 1, certain products are advertised as being recommended as ``good'' products at the very top of the page. This gives those products a certain amount of visibility that the other products offered by the e-commerce site do not have.
+
+    \item \textbf{The ordering of the remaining products:} Items that are near the top of the list of recommended products are more likely to be purchased than items that are lower on the list of recommended products [3]. This idea has been confirmed by numerous prior works.
+\end{enumerate}
+
+With this in mind, the proposed project aims to identify and bring to light the biases that exist on these e-commerce platforms in real time such that users can be made aware of these biases and be a more educated consumer.
+
+\section{Motivation and Importance}
+
+The implications of biased algorithms in e-commerce has had tangible negative implications on a targeted group, specifically small businesses. E-commerce has historically benefited larger name brands because those are the brands that initially have the most visibility. Because of that initial visibility, the algorithms continue to reward those same companies (consumers will click on those products, add it to their carts etc.). What this does is create somewhat of an echo chamber that allows for specific products by specific companies to be advertised heavily (given more visibility). This cycle will then repeat itself and prevents smaller business products (more niche) from gaining visibility [4]. Effectively, there is an inequality of visibility perpetuated by these algorithmic biases.
+
+The proposed solution gives consumers the opportunity to be aware of these biases. With that information, they could put effort into giving smaller more niche companies equal visibility, and thus purchase whatever they see as the best quality product (ignoring the algorithmic bias that society placed on specific products).
+
+Thus, our solution could lead to another feedback loop, but one where the best quality products are rewarded, not simply the ones with the highest visibility.
+
+
+\section{Prior Works}
+
+\begin{enumerate}
+    \item \textbf{Bias in Evaluation Processes: An Optimization-Based Model:}\cite{vishnoi2023bias} This foundational work introduces a sophisticated mathematical framework for modeling bias emergence in evaluation systems through the lens of optimization theory subject to information constraints. The model incorporates two critical parameters that capture key factors driving bias formation: the resource-information trade-off parameter ($\tau$) and the risk-averseness parameter ($\alpha$). The resource-information parameter $\tau$ represents the constraint on information acquisition during evaluation processes, where higher values indicate greater difficulty in obtaining accurate assessments of true utility. The risk-averseness parameter $\alpha$ captures the asymmetric penalty structure where overestimation of value is penalized more severely than underestimation, reflecting real-world evaluation dynamics where false positives carry higher costs than false negatives.
+
+    Their comprehensive empirical validation demonstrates the model's effectiveness through detailed fits on JEE-2009 entrance examination data and Semantic Scholar academic citation datasets. The JEE-2009 analysis reveals how socioeconomic factors systematically affect evaluation outcomes, with disadvantaged groups experiencing higher $\tau$ values due to evaluator unfamiliarity with their backgrounds, requiring additional cognitive resources for assessment. The Semantic Scholar validation shows how academic evaluation processes exhibit similar bias patterns, with authors from underrepresented groups facing both higher information constraints and increased risk-averse evaluation tendencies. These empirical findings demonstrate how evaluator preferences and resource limitations distort true utility distributions, creating systematic biases that persist across different evaluation contexts.
+    
+    The model's theoretical framework shows that when $\tau$ approaches negative infinity, the evaluation output concentrates on the true utility value, while increasing $\tau$ leads to greater dispersion and systematic skewing of evaluation results. Similarly, increasing $\alpha$ systematically shifts evaluation distributions toward lower values as risk-averse evaluators become more conservative. These insights directly guide our dataset selection approach and bias measurement heuristics, providing a theoretical foundation for understanding how recommendation systems might exhibit similar bias patterns when viewed as evaluation processes that assess item utility for users.
+
+    \item \textbf{Popularity Bias in Recommender Systems: A Survey:}\cite{abdollahpouri2019popularity} This comprehensive survey provides an exhaustive analysis of how collaborative filtering algorithms and popularity-based ranking mechanisms systematically create and perpetuate echo chambers within movie recommendation and product recommendation systems. The work establishes a detailed taxonomy of bias types that emerge within recommendation contexts, distinguishing between exposure bias (unequal item visibility), popularity amplification bias (preferential treatment of already-popular items), and demographic bias (differential treatment across user groups). The survey's methodological contribution includes a comprehensive framework of evaluation metrics specifically designed to quantify different dimensions of popularity bias, including catalog coverage measures, Gini coefficients for exposure distribution, and group average popularity metrics.
+
+    The collaborative filtering analysis reveals how user-user similarity calculations inherently favor popular items due to their higher likelihood of shared ratings across user profiles, creating a mathematical advantage for mainstream content that compounds over time. The survey demonstrates how memory-based collaborative filtering methods exhibit stronger popularity bias than model-based approaches, as nearest-neighbor calculations naturally gravitate toward users with overlapping preferences on popular items. Content-based filtering approaches show different bias patterns, with popularity effects emerging through feature selection and similarity computation processes that inadvertently favor items with rich metadata or high engagement histories.
+
+    The work's analysis of popularity bias evaluation methodologies provides essential measurement frameworks that we directly adopt and adapt for OTTO's multi-objective context. Their coverage analysis techniques help quantify how recommendation systems fail to surface long-tail content, while their temporal bias measurement approaches enable tracking of bias evolution over time. The survey's insights into the relationship between collaborative filtering mechanisms and echo chamber formation inform our understanding of how multi-objective systems might exhibit similar self-reinforcing patterns across clicks, cart additions, and orders, with each objective potentially creating distinct but interconnected bias dynamics.
+
+    \item \textbf{Auditing Yelp’s Recommendation Engine:}\cite{hannak2023auditing}   This groundbreaking empirical study represents the first large-scale observational audit of a major commercial recommendation platform, specifically examining Yelp's local business ranking and review recommendation systems through a comprehensive fairness analysis lens. The methodology employs sophisticated data collection frameworks designed to minimize selection bias while systematically analyzing existing platform outputs rather than generating artificial inputs for testing purposes. Their approach reveals systematic geographic and demographic disparities in recommendation patterns, with businesses in lower-income neighborhoods and areas with higher minority populations receiving systematically reduced exposure and recommendation frequency.
+
+    The audit framework identifies multiple forms of bias operating simultaneously within Yelp's system, including location-based bias where businesses in economically disadvantaged areas face reduced visibility, user-based bias where reviews from newer or less-established users receive filtered treatment, and temporal bias where established businesses maintain systematic advantages over newer establishments. The study demonstrates how these bias patterns intersect and compound, creating particularly severe disadvantages for businesses that face multiple bias dimensions simultaneously.
+
+    Their methodological innovation in real-data auditing provides direct inspiration for our descriptive framework for analyzing category-based and session-based bias patterns within OTTO's system. The study's approach to measuring exposure disparities across different stakeholder groups (businesses, users, neighborhoods) offers proven techniques for quantifying similar disparities across product categories, merchant types, and user segments within e-commerce recommendations. Their sophisticated statistical analysis methods, including quantile regression techniques and demographic correlation analysis, provide robust tools for identifying and measuring bias patterns without requiring access to internal algorithmic details or training data.
+
+    \item \textbf{Mitigating Exposure Bias in Learning-to-Rank:}\cite{mansoury2024exposure} This technical contribution addresses the fundamental challenge of exposure bias in learning-to-rank systems through innovative propensity-weighted correction methodologies designed to account for position-dependent click probability variations. The work develops sophisticated mathematical frameworks for modeling how user interaction patterns vary systematically with recommendation position, creating biased feedback loops where highly-ranked items receive disproportionate interaction opportunities regardless of their intrinsic quality or relevance. Their propensity weighting approach estimates position-dependent click probabilities and uses these estimates to reweight training signals, reducing the systematic advantage that top-ranked items receive in subsequent ranking iterations.
+
+    While their primary contribution focuses on algorithmic mitigation through propensity scoring and inverse propensity weighting, their comprehensive diagnostic analysis provides invaluable insights into bias measurement and visualization techniques. The study includes detailed pre-adjustment and post-adjustment metric comparisons that demonstrate how exposure bias manifests across different ranking positions and user interaction types. Their analysis reveals how traditional recommendation evaluation metrics can systematically underestimate bias effects by failing to account for position-dependent exposure variations.
+
+    The diagnostic visualization techniques developed in this work directly inform our analytical approach, particularly their methods for measuring exposure disparity across item popularity levels and their frameworks for tracking bias evolution over time. Their position-aware bias measurement techniques provide essential tools for understanding how multi-objective systems might exhibit different bias patterns at different ranking positions, with clicks potentially showing different position effects than cart additions or orders. The study's emphasis on measuring bias magnitude before implementing mitigation strategies aligns directly with our descriptive analysis goals, emphasizing the critical importance of comprehensive bias characterization as a prerequisite for effective intervention design.
+\end{enumerate}
+
+\section{Novelty}
+
+Much of the existing work on bias in recommender systems has looked at single outcomes, such as ratings in movie platforms or clicks in job recommendation systems. Our project is different in that it studies bias in a multi-objective setting, where clicks, cart additions, and purchases all interact within the same recommendation pipeline. This allows us to see whether the same popularity advantages that drive early engagement also carry through to later stages of the customer journey, or if they shift as users make more committed decisions.
+
+Another novel aspect of our approach is the focus on temporal and session-level patterns. Because the OTTO dataset records individual user sessions with detailed timestamps, we can track how exposure advantages accumulate over time rather than relying on static snapshots. This makes it possible to identify “rich-get-richer” dynamics as they unfold, which is rarely captured in prior studies.
+
+Finally, the project brings these questions into the e-commerce domain at scale, an area that has not been as thoroughly audited as social media or entertainment platforms. By adapting existing fairness metrics — such as coverage analysis, Gini coefficients, and exposure disparity measures — to the structure of a multi-objective e-commerce dataset, we provide a framework that is both academically grounded and practically useful for evaluating commercial systems.
+
+\section{Project Overview}
+
+
+\noindent \textbf{High-Level Plan:}
+Build a practical, evidence-backed toolkit that (i) points out where e-commerce recommenders exhibit visibility bias, (ii) formalizes simple diagnostic checks for bias, and (iii) presents those findings in a user-facing dashboard.
+
+\noindent \textbf{Three Overarching Steps:}
+
+\begin{enumerate}
+  \item \textbf{Case study using OTTO dataset}
+    \begin{itemize}
+      \item \emph{Input:} OTTO sessions (click, cart, order events with timestamps).
+      \item \emph{Methods:} Position-bias curves (interaction rate vs.\ rank), exposure disparity metrics (e.g., Gini of impressions, catalog coverage), long-tail vs.\ head comparisons, temporal compounding analysis (does early exposure snowball?).
+      \item \emph{Output:} A descriptive audit report showing where visibility concentrates (by item popularity, category, merchant proxy, and over time).
+      \item \emph{Success criteria:} Clear, reproducible plots/tables that reveal statistically significant exposure and conversion skew tied to ranking position and item popularity.
+    \end{itemize}
+
+  \item \textbf{Create a bias-check framework}
+    \begin{itemize}
+      \item \emph{Input:} Metrics from Step~1.
+      \item \emph{Methods:} A lightweight decision framework: if (\textit{x}) position-propensity gap $>$ threshold, and/or (\textit{y}) long-tail exposure share $<$ baseline, and/or (\textit{z}) exposure Gini $>$ reference band, then flag ``bias risk'' with severity levels.
+      \item \emph{Output:} A specification (JSON schema + equations) and a library function that ingests interaction logs and returns \texttt{\{metrics, flags, rationale\}}.
+      \item \emph{Success criteria:} Thresholds produce stable, interpretable flags across bootstrap resamples and remain consistent across held-out OTTO segments.
+    \end{itemize}
+
+  \item \textbf{Build dashboard for general public}
+    \begin{itemize}
+      \item \emph{Input:} Framework outputs from Step~2.
+      \item \emph{Features:} 
+        \begin{itemize}
+          \item Bias overview: exposure Gini, catalog coverage, position-bias slope.
+          \item Drilldowns: head vs.\ long-tail exposure, category heatmaps, time evolution.
+          \item Explanations: which checks triggered, why, and example items affected.
+        \end{itemize}
+      \item \emph{Output:} An interactive dashboard that updates from batch metrics (e.g., per week) and highlights where/when visibility bias spikes.
+      \item \emph{Success criteria:} One-click reproduction of Step~1 figures; clear flag explanations tied to the Step~2 rules; exportable PDF/CSV.
+    \end{itemize}
+\end{enumerate}
+
+\noindent \textbf{Deliverables:}
+(1) Reproducible notebooks for the OTTO audit, (2) an open, threshold-based bias-check framework, and (3) a working dashboard that visualizes visibility bias and its drivers.
+
+\section{Research Questions}
+
+\begin{enumerate}
+  \item \textbf{How does visibility bias evolve across clicks, carts, and orders?} We will measure whether exposure concentration (e.g., Gini) increases or decreases as users move from early to later funnel stages.
+  \item \textbf{Which product categories experience the greatest exposure disparity at each stage?} We will compare head vs. long-tail exposure shares by category across clicks, carts, and orders.
+  \item \textbf{Does early exposure snowball into later advantages (temporal compounding)?} We will test if items with early-session exposure gains receive disproportionate later-session engagements.
+\end{enumerate}
+
+\section{Evaluation Metrics}
+
+Let $\mathcal{I}$ denote the item catalog, and for each event type $t \in \{\text{click},\text{cart},\text{order}\}$ let $E^{(t)}_i$ be the number of exposures/interactions of item $i \in \mathcal{I}$ under type $t$. Define the empirical exposure distribution $P^{(t)}$ over items by
+\[
+P^{(t)}(i) = \frac{E^{(t)}_i}{\sum_{j \in \mathcal{I}} E^{(t)}_j}.
+\]
+
+\paragraph{Exposure inequality (Gini).} The Gini coefficient of exposures for type $t$ is
+\[
+\mathrm{Gini}(E^{(t)}) = \frac{1}{2\,|\mathcal{I}|^2\,\mu^{(t)}} \sum_{i \in \mathcal{I}} \sum_{j \in \mathcal{I}} \big|E^{(t)}_i - E^{(t)}_j\big|, \quad \mu^{(t)} = \frac{1}{|\mathcal{I}|}\sum_{i \in \mathcal{I}} E^{(t)}_i.
+\]
+Higher values indicate more unequal exposure concentration (greater visibility bias).
+
+\paragraph{Long-tail exposure share.} Let $\mathcal{H}_q$ be the ``head'' set (top $q\%$ items by $E^{(\text{click})}_i$) and $\mathcal{T}_q = \mathcal{I} \setminus \mathcal{H}_q$ the long tail. For any type $t$,
+\[
+\mathrm{TailShare}^{(t)}_q = \frac{\sum_{i \in \mathcal{T}_q} E^{(t)}_i}{\sum_{j \in \mathcal{I}} E^{(t)}_j}, \qquad \mathrm{HeadShare}^{(t)}_q = 1 - \mathrm{TailShare}^{(t)}_q.
+\]
+Lower tail shares indicate stronger popularity amplification.
+
+\paragraph{Position-bias slope.} If rank positions $r$ are available, define position engagement rate $\mathrm{ER}^{(t)}(r)$ and estimate a slope by regressing $\log \mathrm{ER}^{(t)}(r)$ on $r$:
+\[
+\log \mathrm{ER}^{(t)}(r) = \beta^{(t)}_0 + \beta^{(t)}_1 r + \varepsilon_r.
+\]
+More negative $\beta^{(t)}_1$ indicates stronger position bias (steeper drop-off with rank).
+
+\paragraph{Cross-objective disparity.} As detailed in Section~\ref{sec:math-guarantees}, we also compare exposure distributions across objectives using KL divergence and related distributional metrics to quantify shifts from clicks to carts and orders.
+
+\vspace{0.5em}
+All metrics are computed with bootstrap intervals for robustness and reported overall and by category.
+
+\FloatBarrier
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\linewidth]{Untitled Diagram.drawio.png}
+    \caption{Updated pipeline: Input (sessions) $\to$ Preprocessing $\to$ Metrics (Gini, tail share, KL) $\to$ Scoring (threshold flags) $\to$ Analysis (breakdowns, trends) $\to$ Dashboard.}
+    \label{fig:placeholder}
+\end{figure}
+
+
+
+\section{Dataset Description}
+
+The OTTO dataset is one of the most exhaustive resources for bias analysis in multi-objective e-commerce recommendation systems, offering relevant data that directly addresses the core challenges of our research problem. As an industry-grade dataset comprising 12.9 million real-world anonymized user sessions with over 220 million events distributed across clicks (194.7M), cart additions (16.9M), and orders (5.1M), OTTO provides statistical power necessary to detect bias patterns across the complete conversion funnel. The dataset's commercial origin from OTTO's actual webshop and mobile app ensures that observed bias patterns reflect genuine user behavior rather than synthetic or laboratory-generated interactions, making our findings directly applicable to real-world e-commerce environments where popularity bias creates substantial business impact. Also, the dataset's multi-objective structure allows us to examine how bias manifests differently across the three distinct user actions (or any combination of the three), enabling analysis of whether items experiencing click-based popularity bias also suffer similar disadvantages in cart additions and final purchase decisions, thereby revealing the complete scope of algorithmic discrimination throughout the customer journey.
+\\\\
+The dataset's temporal structure and session-based organization provide key capabilities for conducting a bias audit that extends beyond simple popularity measurements to capture the evolution of bias over time and user interactions. Each session contains chronologically ordered events with timestamps, enabling temporal bias analysis that can reveal whether popularity advantages compound over time or whether certain interaction patterns help mitigate bias effects. The dataset's density characteristics, with sessions averaging 16.8 events in training data and substantial variation (ranging from 2 to 500 events per session), provide natural experimental conditions for examining how bias patterns differ across user engagement levels and session complexity. Furthermore, the 1.8 million unique articles in the catalog, combined with interaction histories showing how frequently each item appears across sessions (ranging from 3 to over 129,000 interactions per item), create great conditions for measuring long-tail suppression and/or dominance patterns that are central to our bias analysis framework. This scale and authentic commercial provenance make OTTO uniquely positioned to provide empirical evidence about multi-objective bias patterns that can inform both academic understanding and practical intervention strategies in real-world recommendation systems.
+
+\section{Desired Contributions}
+\begin{itemize}
+    \item \textbf{Descriptive framework for multi-objective bias:} Our research will establish a comprehensive systematic audit methodology specifically designed to quantify the complex interplay of popularity, category, and temporal biases across the three distinct objective dimensions of clicks, cart additions, and orders within e-commerce recommendation systems. This framework will provide detailed characterization of how bias patterns manifest differently across the conversion funnel, revealing whether items that suffer from click-based popularity bias also experience similar disadvantages in cart addition and order completion recommendations. The framework will incorporate advanced statistical techniques for measuring bias magnitude, temporal evolution, and cross-objective correlation patterns, providing platform operators with essential diagnostic capabilities for understanding bias dynamics within their multi-objective optimization strategies.
+    \item \textbf{Empirical analysis:} We will conduct extensive empirical validation using sophisticated demographic-parity and exposure disparity metrics specifically adapted to measure long-tail suppression effects and mainstream dominance patterns within multi-objective recommendation contexts. Our analysis will employ advanced statistical techniques including Gini coefficient calculations for exposure distribution, catalog coverage analysis for diversity measurement, and temporal bias tracking for understanding bias evolution over time. The empirical component will quantify the magnitude of bias effects across different product categories, user segments, and temporal patterns, providing detailed insights into how multi-objective optimization strategies might inadvertently amplify or mitigate bias patterns compared to single-objective approaches.
+    \item \textbf{Concrete benchmarks:} Our comprehensive evaluation will utilize OTTO's extensive 1.8M session dataset, encompassing over 220M user interactions across clicks, cart additions, and orders, providing unprecedented scale for bias analysis within real commercial recommendation systems. We will establish direct comparison benchmarks against established datasets including MovieLens recommendation data and previously published Yelp audit results, enabling contextual evaluation of bias magnitude and characteristics across different recommendation domains and use cases. These benchmarks will provide standardized measurement frameworks that enable future research to assess bias mitigation effectiveness and compare bias patterns across different platform types and recommendation strategies.
+\end{itemize}
+
+\section{Mathematical Guarantees}
+
+To show how the recommendation system favors certain items, we compare the distributions of item exposures produced by different objective functions. For each objective (like clicks, carts, or orders), we look at the probability distribution over all items. If the system is fair, these distributions should look similar, but if there is bias, especially the "rich get richer" effect, the distributions will be quite different.
+
+We use the Kullback-Leibler (KL) divergence to measure the difference between two distributions. For two probability distributions $$P$$ and $$Q$$ over items, the KL-divergence is defined as:
+
+$$
+D_{KL}(P \parallel Q) = \sum_{i} P(i) \log \frac{P(i)}{Q(i)}
+$$
+
+where $$P(i)$$ is the probability of item $$i$$ under one objective function, and $$Q(i)$$ is the probability under another objective function. A higher KL-divergence means the system treats items very differently depending on the objective, which is a sign of bias.
+
+We also use the MAUVE metric, which is designed to compare two distributions and is especially good for detecting differences in the long tail. MAUVE gives a score between 0 and 1, where 1 means the distributions are very similar and 0 means they are very different. The MAUVE score is calculated using the area under the curve of the trade-off between precision and recall for the two distributions:
+
+$$
+\text{MAUVE}(P, Q) = \int_{0}^{1} \min(\text{Precision}_\alpha, \text{Recall}_\alpha) \, d\alpha
+$$
+
+By reporting KL-divergence and MAUVE scores for all pairs of objective functions, we can mathematically guarantee that any big difference in item exposure is real and not just random. This helps us show exactly how much the recommendation system is favoring popular items over others, and whether the bias changes depending on which objective is being optimized.
+
+\section{Feasibility and Potential Risks}
+
+The OTTO dataset's comprehensive public availability and extensive documentation ensure immediate research access to all required interaction logs, user session data, and item metadata necessary for conducting thorough bias analysis without institutional data access barriers or complex negotiation processes. The dataset's substantial scale, encompassing 12.8M training sessions and 1.67M test sessions with complete interaction histories, provides sufficient statistical power for detecting subtle bias patterns and conducting robust comparative analysis across different user segments and time periods. Our carefully designed descriptive methodology relies primarily on established statistical audit techniques, propensity weighting methodologies, and Pareto-frontier analysis approaches that avoid computationally intensive algorithmic retraining or model modification requirements.
+
+The analytical framework emphasizes post-hoc analysis of existing recommendation outputs rather than requiring access to proprietary algorithmic implementations or sensitive business logic, making the research feasible within academic resource constraints while maintaining methodological rigor. Our approach leverages proven statistical techniques including quantile regression analysis, demographic parity measurement, and temporal trend analysis that have demonstrated effectiveness in previous recommendation auditing research.
+
+A significant methodological challenge involves inferring demographic segments and user characteristics from observable behavior patterns rather than relying on explicit demographic labels that are typically unavailable in commercial datasets due to privacy constraints. We will address this limitation through careful validation of behavioral segmentation approaches against established demographic inference techniques and by conducting comprehensive sensitivity analyses to assess how different segmentation strategies might affect bias measurement outcomes. Additionally, we will implement multiple complementary segmentation approaches to ensure robust results that are not dependent on specific demographic inference methodologies, thereby maintaining the validity and generalizability of our bias characterization findings.
+
+\section{Future Work}
+
+As large language models (LLMs) become integral to personalized recommendation systems (e.g., conversational assistants suggesting products or content), extending our descriptive bias framework to LLM-driven recommendations is a natural next step. LLMs have been shown to exhibit biases in generated outputs, such as gender stereotypes and underrepresentation of minority dialects\cite{bender2021dangers, sheng2021towards}. By treating generated suggestions as another multi-objective stream—merging relevance, diversity, and fairness—we can apply our audit methodology to quantify LLM exposure bias across demographic and topical dimensions. For example, one might measure how often a model recommends niche cultural products versus mainstream items, paralleling our OTTO analysis, and assess how prompt variations influence bias patterns.
+
+Beyond auditing, this future work could involve \emph{counterfactual bias modeling} for LLMs: fitting parameters analogous to $\tau,\alpha$ to transformations of underlying prompt distributions into biased outputs. Such a model would enable systematic experimentation with \emph{prompt engineering} interventions to reduce bias, similar to exposure corrections in learning-to-rank\cite{mansoury2024exposure}. Moreover, integrating our temporal and category bias profiling with LLM session interactions (e.g., multi-turn dialogues) could reveal dynamic bias evolution over a user session, offering insights into how conversational context amplifies or mitigates recommendation inequities. This path lays the groundwork for designing fairness-aware LLM recommender tools that maintain utility while ensuring equitable content exposure.
+
+\section{References}
+
+\begin{thebibliography}{10}
+
+\bibitem{mansoury2024exposure}
+https://newsroom.tiktok.com/how-tiktok-recommends-videos-for-you?lang=en
+
+\bibitem{mansoury2024exposure}
+https://arxiv.org/pdf/1809.08161
+
+\bibitem{mansoury2024exposure}
+https://mitsloan.mit.edu/press/mit-sloan-professor-analyzes-impact-product-rankings-online-platforms
+
+\bibitem{mansoury2024exposure}
+https://arxiv.org/html/2312.03253v1?
+
+\bibitem{bender2021dangers}
+Emily~M. Bender, Timnit Gebru, Angelina McMillan-Major, and Shlomit Wah.
+\newblock On the dangers of stochastic parrots: Can language models be too
+  big?
+\newblock In {\em FAccT}, 2021.
+
+\bibitem{sheng2021towards}
+Emily Sheng, Kai-Wei Chang, Prem Natarajan, and Nanyun Peng.
+\newblock Societal Biases in Language Generation: Progress and Challenges
+\newblock In {\em ACL}, 2021.
+
+\bibitem{vishnoi2023bias}
+L.~Elisa Celis, Amit Kumar, Anay Mehrotra, and Nisheeth K. Vishnoi.
+\newblock Bias in evaluation processes: An optimization-based model.
+\newblock In {\em NeurIPS}, 2023.
+
+\bibitem{theken2025relook}
+The~Ken.
+\newblock Rethink Google \& Facebook Algorithms.
+\newblock \url{https://the-ken.com/relook-google-facebook-algorithm/}, 2025.
+
+\bibitem{otto2023dataset}
+Kaggle.
+\newblock OTTO Recommender Systems Dataset.
+\newblock \url{https://www.kaggle.com/datasets/otto/recsys-dataset}, 2023.
+
+\bibitem{abdollahpouri2019popularity}
+Himan Abdollahpouri, Robin Burke, and Bamshad Mobasher.
+\newblock Controlling popularity bias in learning-to-rank recommendation.
+\newblock In {\em RecSys}, 2017.
+
+\bibitem{hannak2023auditing}
+Singhal, Mohit, et al.
+\newblock Auditing yelp's business ranking and review recommendation through the lens of fairness.
+\newblock {\em AAAI}, 2025.
+
+\bibitem{mansoury2024exposure}
+H.~Mansoury, et~al.
+\newblock Mitigating exposure bias in learning-to-rank recommendation.
+\newblock In {\em ICML}, 2024.
+
+
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,60 @@
+# Cursor Rules for CPSC 4640 Project
+
+name: cpsc-4640-otto
+
+# General guidance
+assistant:
+  style:
+    tone: concise
+    prefer_bullets: true
+    code_fences_markdown_only: true
+  coding:
+    respect_existing_indentation: true
+    avoid_large_pastes: true
+    summarize_changes: true
+    use_absolute_paths: true
+  secrets:
+    env_vars:
+      - HF_TOKEN
+    redactions:
+      - pattern: "hf_[A-Za-z0-9]{36,}"
+        replace_with: "<HF_TOKEN>"
+  tools:
+    allow_terminal: true
+    default_shell: /bin/zsh
+    non_interactive_flags: true
+
+# Repo conventions
+project:
+  language: python
+  env:
+    python: ">=3.10"
+    package_manager: pip
+  files:
+    notebooks_dir: notebooks
+    data_dir: data
+    figures_dir: figures
+    src_dir: src
+
+# Implementation preferences
+implementation:
+  notebooks:
+    prefer_jupyter: true
+    keep_outputs_committed: false
+  dependencies:
+    pin_versions: true
+    requirements_file: requirements.txt
+  lint:
+    python: disabled
+
+# Safety
+safety:
+  never_commit_secrets: true
+  network:
+    allow_hf_downloads: true
+    block_unknown_hosts: false
+
+# Autocomplete
+autocomplete:
+  prefer_docstrings: true
+  expand_imports: true
