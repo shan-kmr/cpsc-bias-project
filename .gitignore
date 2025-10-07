@@ -17,6 +17,8 @@ venv/
 /data/
 /figures/
 /tmp/
+*.jsonl
+**/*.jsonl
 
 # OS files
 .DS_Store

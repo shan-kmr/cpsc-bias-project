@@ -18,7 +18,11 @@ export HF_TOKEN="<your_token>"
 
 ## Data Access
 
-We use `datasets` and `huggingface_hub` to stream a subset of OTTO interactions. If Kaggle is preferred, download locally to `data/`.
+Place small samples of OTTO sessions as JSONL in `data/` (e.g., `otto-recsys-train.jsonl`, `otto-recsys-test.jsonl`). Large JSONL files are gitignored.
+Set an optional sample cap via `MAX_SESSIONS` (default 300):
+```bash
+export MAX_SESSIONS=500
+```
 
 ## Run the prototype
 
@@ -26,6 +30,17 @@ We use `datasets` and `huggingface_hub` to stream a subset of OTTO interactions.
 jupyter lab
 ```
 Open `notebooks/01_prototype_otto_bias.ipynb` and run all cells.
+
+### What the notebook does
+- Loads a tiny sample from local JSONL files; falls back to synthetic if absent.
+- Computes bias metrics: exposure Gini, long-tail (tail-share), position-bias proxy.
+- Produces plots tied to research questions (RQ1–RQ3) with printed interpretations.
+
+### How to interpret outputs
+- Gini higher → stronger visibility concentration (bias). Tail-share lower → weaker long-tail exposure.
+- Decile bars: rising top-decile share from clicks→orders suggests popularity amplification.
+- Position curve: steeper negative slope → stronger position bias.
+- Early→later trend: positive slope indicates compounding visibility advantages over time.
 
 ## Repo Structure
 - `notebooks/` prototype and analysis notebooks
