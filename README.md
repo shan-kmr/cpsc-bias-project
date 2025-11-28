@@ -31,6 +31,15 @@ jupyter lab
 ```
 Open `notebooks/01_prototype_otto_bias.ipynb` and run all cells.
 
+### Run the interactive dashboard
+
+Install dependencies (once), then launch the Streamlit app:
+```bash
+pip install -r requirements.txt
+streamlit run src/dashboard_app.py
+```
+Controls are in the left sidebar (sample size, head fraction, early window, etc.). You can download CSV/HTML exports for figures and metrics.
+
 ### What the notebook does
 - Loads a tiny sample from local JSONL files; falls back to synthetic if absent.
 - Computes bias metrics: exposure Gini, long-tail (tail-share), position-bias proxy.

@@ -9,3 +9,4 @@ huggingface_hub==0.24.6
 datasets==2.21.0
 pyarrow==17.0.0
 plotly==5.24.1
+streamlit==1.38.0
