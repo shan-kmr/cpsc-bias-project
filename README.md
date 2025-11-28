@@ -92,9 +92,11 @@ where $s_i = x_i / \sum_j x_j$ is the exposure share of item $i$.
 
 Fraction of total exposure captured by the bottom 90% of items (long-tail). Lower values indicate stronger head dominance.
 
-$$
-TailShare_{10\%} = \frac{\sum_{i \in Tail} x_i}{\sum_{j} x_j}
-$$
+```
+Tail-Share = (sum of exposures for tail items) / (total exposures)
+```
+
+where tail items are the bottom 90% by popularity.
 
 ### Position-Bias Proxy
 
