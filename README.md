@@ -93,7 +93,7 @@ where $s_i = x_i / \sum_j x_j$ is the exposure share of item $i$.
 Fraction of total exposure captured by the bottom 90% of items (long-tail). Lower values indicate stronger head dominance.
 
 $$
-\text{Tail-Share}_{@10\%} = \frac{\sum_{i \in \text{Tail}} x_i}{\sum_{j} x_j}
+\text{Tail-Share}_{@10\%} = \frac{\sum_{i \in Tail} x_i}{\sum_{j} x_j}
 $$
 
 ### Position-Bias Proxy
@@ -105,7 +105,7 @@ Engagement rate by intra-session position. A negative slope indicates items show
 Ratio of later-stage share for top early-exposure decile (E10) vs. bottom decile (E1):
 
 $$
-\text{Lift} = \frac{\text{Share}_{E10}}{\text{Share}_{E1}}
+\text{Lift} = \frac{Share_{E10}}{Share_{E1}}
 $$
 
 Values > 1 suggest compounding visibility advantages.
@@ -269,8 +269,3 @@ The OTTO dataset contains behavioral traces that could enable re-identification:
 
 CPSC 4640 Project — Exposure Bias Analysis in E-Commerce Recommendations
 
----
-
-## License
-
-For academic use only. OTTO dataset subject to Kaggle competition terms.
