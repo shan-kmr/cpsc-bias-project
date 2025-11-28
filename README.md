@@ -93,7 +93,7 @@ where $s_i = x_i / \sum_j x_j$ is the exposure share of item $i$.
 Fraction of total exposure captured by the bottom 90% of items (long-tail). Lower values indicate stronger head dominance.
 
 $$
-\text{Tail-Share}_{@10\%} = \frac{\sum_{i \in Tail} x_i}{\sum_{j} x_j}
+TailShare_{10\%} = \frac{\sum_{i \in Tail} x_i}{\sum_{j} x_j}
 $$
 
 ### Position-Bias Proxy
@@ -262,10 +262,3 @@ The OTTO dataset contains behavioral traces that could enable re-identification:
 - Abdollahpouri, H., et al. (2020). *Multistakeholder Recommendation: Survey and Research Directions*
 - Biega, A., et al. (2018). *Equity of Attention: Amortizing Individual Fairness in Rankings*
 - Singh, A., & Joachims, T. (2018). *Fairness of Exposure in Rankings*
-
----
-
-## Authors
-
-CPSC 4640 Project — Exposure Bias Analysis in E-Commerce Recommendations
-
