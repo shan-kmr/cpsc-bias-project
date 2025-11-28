@@ -1,6 +1,6 @@
 # CPSC 4640: Multi-Objective Bias Analysis for E-Commerce Recommendations
 
-A data science project that audits **visibility bias** in e-commerce recommender systems using the [OTTO dataset](https://www.kaggle.com/competitions/otto-recommender-system). We investigate how exposure inequality evolves across the customer funnel (clicks → carts → orders) and whether a "rich-get-richer" feedback loop amplifies popularity bias over time.
+Our group audits **visibility bias** in e-commerce recommender systems using the [OTTO dataset](https://www.kaggle.com/competitions/otto-recommender-system). We investigate how exposure inequality evolves across the customer funnel (clicks → carts → orders) and whether a "rich-get-richer" feedback loop amplifies popularity bias over time.
 
 ---
 
